@@ -9,32 +9,70 @@ let bite_state = [
     {Animation:"roatationbrulante 1s linear infinite", Duree:"1s", Couleur:"#edb974"},
     {Animation:"tremblementRotation 1s linear infinite", Duree:"0.5s", Couleur:"#edb974"},
     {Animation:"tremblementRotation 1s linear infinite", Duree:"0.1s", Couleur:"#edb974"},
-]
+];
 let succes = [
-    {Nom:"Préliminaire", Description:"Toucher votre bite pour la premièrre fois", Image:"img/kqzh6koq.png", Obtention:"N", Type:"C"},
-    {Nom:"Youtubeur", Description:"Vous vous êtes touché la bite 100 fois, c'était surement sur des enfants.", Image:"img/images.jpg", Obtention:"N", Type:"C"},
-    {Nom:"Bite innitiée", Description:"Vous commencez a comprendre le gameplay", Image:"img/5ed8xhzh.png", Obtention:"N", Type:"T"},
-    {Nom:"Bite grande", Description:"C'est bon vous maitrisez vraiment le jeu !", Image:"img/e6cz06af.png", Obtention:"N", Type:"T"},
-    {Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"T"}
-]
+    {ID:"0", Nom:"Préliminaire", Description:"Toucher votre bite pour la premièrre fois", Image:"img/kqzh6koq.png", Obtention:"N", Type:"Clicker"},
+    {ID:"1", Nom:"Youtubeur", Description:"Vous vous êtes touché la bite 100 fois, c'était surement sur des enfants.", Image:"img/images.jpg", Obtention:"N", Type:"Clicker"},
+    {ID:"2", Nom:"Bite innitiée", Description:"Vous commencez a comprendre le gameplay", Image:"img/5ed8xhzh.png", Obtention:"N", Type:"Température"},
+    {ID:"3", Nom:"Bite grande", Description:"C'est bon vous maitrisez vraiment le jeu !", Image:"img/e6cz06af.png", Obtention:"N", Type:"Température"},
+    {ID:"4", Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"Température"}
+];
+let diff_type = [];
+let succestrie = {};
 let succestotal = succes.length;
 let nowsucces = 0;
 let succesunlocked = 0;
 let bite_clicks = 0;
 
+function find_ID(ID) {
+    for (let i = 0; i < succestotal; i++) {
+        if (succes[i].ID == ID)
+            return i;
+    }
+}
 
-function write_succes(){
-    for (let i = 0; i < succestotal ; i++) {
-        var nveau_succes = $('<div/>', {
-            "class": "succes locked",
-            "id": "succes" + i,
-            html: '<img src="' + succes[i].Image + '" class="imgsucces">' +
-                '<div>' +
-                '<h2>' + succes[i].Nom + '</h2>' +
-                '<p>' + succes[i].Description + '</p>' +
-                '</div>'
-        });
-        $("#containersucces").append(nveau_succes);
+function triertype() {
+    succestrie = {};
+    diff_type = [];
+
+    for (let i = 0; i < succestotal; i++) {
+        const type = succes[i].Type;
+        if (!succestrie[type]) {
+            succestrie[type] = [];
+            diff_type.push(type);
+        }
+        succestrie[type].push(succes[i]);
+    }
+    console.log(succestrie);
+    console.log(diff_type);
+}
+
+function write_succes() {
+
+    for (let type in succestrie) {
+        if (succestrie.hasOwnProperty(type)) {
+            let typeContainer = $('<div/>', {
+                "id": type,
+                "class": "succes-type-container"
+            });
+
+            typeContainer.append('<h2> Succès de type : ' + type + ' </h2>');
+
+            for (let i = 0; i < succestrie[type].length; i++) {
+                let succesObj = succestrie[type][i];
+                let nveau_succes = $('<div/>', {
+                    "class": "succes locked",
+                    "id": "succes" + succesObj.ID, 
+                    html: '<img src="' + succesObj.Image + '" class="imgsucces">' +
+                        '<div>' +
+                        '<h2>' + succesObj.Nom + '</h2>' +
+                        '<p>' + succesObj.Description + '</p>' +
+                        '</div>'
+                });
+                typeContainer.append(nveau_succes);
+            }
+            $("#containersucces").append(typeContainer);
+        }
     }
 }
 
@@ -54,7 +92,7 @@ $(".bite").click(function() {
     }
 
     DernierClic = maintenant;
-    temp += 1 + (trerapidefavetier * 0.5);
+    temp += 1 + (trerapidefavetier * 0.2);
 
     bite_clicks ++;
     console.log(bite_clicks)
@@ -95,13 +133,13 @@ function unlock_succes(succesu) {
 }
 
 function updatesuccestypeT() {
-    if (temp >= 300 && succes[2].Obtention == "N") {
+    if (temp >= 300 && succes[find_ID(2)].Obtention == "N") {
         unlock_succes(2);
     }  
-    if (temp >= 600 && succes[3].Obtention == "N") {
+    if (temp >= 600 && succes[find_ID(3)].Obtention == "N") {
         unlock_succes(3);
     }
-    if (temp >= 1250 && succes[4].Obtention == "N"){
+    if (temp >= 1250 && succes[find_ID(4)].Obtention == "N"){
         unlock_succes(4);
     }
 }
@@ -190,6 +228,7 @@ $("#imgcroix").hover(
 
 $("#succesentout").text(succestotal)
 $("#succespage").hide();
+triertype();
 write_succes();
 
 setInterval(vartemp, 1000);
