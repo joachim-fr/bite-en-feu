@@ -10,11 +10,11 @@
         <div class="UI">
             <div class="game" id="game">
                 <div class="tempdiv">
-                    <h2>Température de la bite : </h2>
+                    <h2>Température de la bite : &nbsp;</h2>
                     <h2 id="temp">0</h2>
                     <h2> °C</h2>
                 </div>
-                <div class="bite rotate" id="bite">
+                <div class="bite rotate" id="bite" style="animation: tremblementRotation 5s linear infinite;">
                     <h1>BITE</h1>
                 </div>
                 <button class="button" id="button1">Voir ses succès</button>
@@ -37,29 +37,34 @@
                 <div class="succes locked" id="succes1">
                     <img src="img/kqzh6koq.png" alt="Image de succès" class="imgsucces">
                     <div>
-                        <h2>Prémices</h2>
+                        <h2>Préliminaires</h2>
                         <p>Chauffer votre bite pour la premièrre fois</p>
+                    </div>
+                    <div class="Tempsucces" id="Tempsuccesdiv1">
+                        <h2>Débloqué à :&nbsp;</h2>
+                        <h2  id="Tempsucces1">0</h2>
+                        <h2>°C</h2>
                     </div>
                 </div>
                 <div class="succes locked" id="succes2">
                     <img src="img/5ed8xhzh.png" alt="Image de succès" class="imgsucces">
                     <div>
                         <h2>Bite innitiée</h2>
-                        <p>Chauffer votre bite a la température débulition de l'eau</p>
+                        <p>Vous commencez a comprendre le gameplay</p>
                     </div>
                 </div>
                 <div class="succes locked" id="succes3">
                     <img src="img/e6cz06af.png" alt="Image de succès" class="imgsucces">
                     <div>
                         <h2>Bite grande</h2>
-                        <p>Chauffer votre bite a la température du soleil</p>
+                        <p>C'est bon vous maitrisez vraiment le jeu !</p>
                     </div>
                 </div>
                 <div class="succes locked" id="succes4">
-                    <img src="img/5ed8xhzh.png" alt="Image de succès" class="imgsucces">
+                    <img src="img/22887-11744183.jpg" alt="Image de succès" class="imgsucces">
                     <div>
-                        <h2>Bite moyenne</h2>
-                        <p>Chauffer votre bite a la température débulition de l'eau</p>
+                        <h2>Bitte</h2>
+                        <p>Vous avez fodue votre bitte d'amarage</p>
                     </div>
                 </div>
                 <div class="succes locked" id="succes5">
@@ -115,6 +120,15 @@
     <div class = "succesnotif" id="succesnotif3">
         <div>
             <img src="img/e6cz06af.png" alt="Image de succès" class="imgsucces">
+        </div>
+        <div style="width:163px;">
+            <h2>Succès !</h2>
+            <p>Vous avez débloqué un nouveau succès !</p>
+        </div>
+    </div>
+    <div class = "succesnotif" id="succesnotif4">
+        <div>
+            <img src="img/22887-11744183.jpg" alt="Image de succès" class="imgsucces">
         </div>
         <div style="width:163px;">
             <h2>Succès !</h2>

@@ -15,12 +15,12 @@
 
 .game {
     transition: filter 0.5s ease-in-out;
-    filter: blur(0); /* Assurez-vous que le flou est initialement à 0 */
+    filter: blur(0); 
 }
 
 body {
     transition: background-color 0.5s ease-in-out;
-    background-color: transparent; /* Assurez-vous que la couleur de fond initiale est transparente ou celle désirée */
+    background-color: transparent;
 }
 
 .game.succespageestla {
@@ -41,7 +41,6 @@ body.succespageestla {
     display: block;
     margin-top: 20px;
     font-family: Comic-Sans-MS;
-    animation: tremblementRotation 5s linear infinite;
 }
 
 .button {
@@ -56,7 +55,7 @@ body.succespageestla {
     left: 50%; 
     transform: translateX(-50%); 
     display: block; 
-    margin-top: 20px; 
+    margin-top: 200px; 
 }
 
 .succesnotif {
@@ -193,6 +192,14 @@ body.succespageestla {
     }
 }
 
+.Tempsucces {
+    display: flex;
+    position: relative;
+    right: -8%;
+    font-size: 10px;
+    margin-top: 23.5px;
+}
+
 .locked{
     h2 {
         color: rgba(255, 255, 255, 0.486);
@@ -227,5 +234,14 @@ body.succespageestla {
     }
     100% {
         transform: translateX(-50%) translate(-2px, 2px) rotate(-1deg);
+    }
+}
+
+@keyframes roatationbrulante {
+    0% {
+        transform: translateX(-50%) rotate(0deg);
+    }
+    100% {
+        transform: translateX(-50%) rotate(360deg);
     }
 }
