@@ -3,8 +3,9 @@ let DernierClic = 0;
 let now = 0;
 let Facteurderefroidissement = 0.99;
 let succes = [false, false, false, false, false, false, false, false, false, false];
-let succesaquis = [false, false, false, false, false, false, false, false, false, false];
+let succestotal = succes.length;
 let nowsucces = 0;
+let succesunlocked = 0;
 
 function updateTemperature() {
     $("#temp").text(temp);
@@ -33,6 +34,8 @@ function vartemp(){
 
 function stautsucceupdate(succes) {
     $("#succes" + succes).removeClass("locked");
+    succesunlocked += 1;
+    $("#succesrempostes").text(succesunlocked);
 }
 
 function updatesucces() {
@@ -106,6 +109,7 @@ $("#imgcroix").hover(
   }
 );
 
+$("#succesentout").text(succestotal)
 
 $("#succespage").hide();
 
