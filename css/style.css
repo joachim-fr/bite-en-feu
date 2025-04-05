@@ -155,7 +155,7 @@ body.succespageestla {
     background-color: #0e141b;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    h2 {
+    .titletype {
         text-align: center;
     }
     img {

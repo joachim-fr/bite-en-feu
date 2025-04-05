@@ -12,10 +12,13 @@ let bite_state = [
 ];
 let succes = [
     {ID:"0", Nom:"Préliminaire", Description:"Toucher votre bite pour la premièrre fois", Image:"img/kqzh6koq.png", Obtention:"N", Type:"Clicker"},
-    {ID:"1", Nom:"Youtubeur", Description:"Vous vous êtes touché la bite 100 fois, c'était surement sur des enfants.", Image:"img/images.jpg", Obtention:"N", Type:"Clicker"},
+    {ID:"1", Nom:"Youtubeur", Description:"Vous vous êtes touché la bite 100 fois, c'était surement sur des enfants", Image:"img/images.jpg", Obtention:"N", Type:"Clicker"},
     {ID:"2", Nom:"Bite innitiée", Description:"Vous commencez a comprendre le gameplay", Image:"img/5ed8xhzh.png", Obtention:"N", Type:"Température"},
     {ID:"3", Nom:"Bite grande", Description:"C'est bon vous maitrisez vraiment le jeu !", Image:"img/e6cz06af.png", Obtention:"N", Type:"Température"},
-    {ID:"4", Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"Température"}
+    {ID:"4", Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"Température"},
+    {ID:"5", Nom:"Gros porc", Description:"Vous vous êtes touché la bite 1000 fois, euh j'éspère que vous n'habitez pas a coté d'une maternelle...", Image:"img/000_37n48g4-1.png", Obtention:"N", Type:"Clicker"},
+    {ID:"6", Nom:"Fromager", Description:"Votre bite est maintenant fermentée", Image:"img/appel_salonv.png", Obtention:"N", Type:"Fermentation"},
+    {ID:"7", Nom:"Monsieur Klein", Description:"«Oh bah c'est pas cool ça»", Image:"img/file.jpg", Obtention:"N", Type:"Fermentation"},
 ];
 let diff_type = [];
 let succestrie = {};
@@ -29,6 +32,10 @@ function find_ID(ID) {
         if (succes[i].ID == ID)
             return i;
     }
+}
+
+function find_index(ID) {
+    return $("succes" + ID).index();
 }
 
 function triertype() {
@@ -56,7 +63,7 @@ function write_succes() {
                 "class": "succes-type-container"
             });
 
-            typeContainer.append('<h2> Succès de type : ' + type + ' </h2>');
+            typeContainer.append('<h2 class="titletype"> Succès de type : ' + type + ' </h2>');
 
             for (let i = 0; i < succestrie[type].length; i++) {
                 let succesObj = succestrie[type][i];
@@ -93,7 +100,6 @@ $(".bite").click(function() {
 
     DernierClic = maintenant;
     temp += 1 + (trerapidefavetier * 0.2);
-
     bite_clicks ++;
     console.log(bite_clicks)
     updateTemperature();
@@ -117,8 +123,7 @@ function vartemp() {
 function unlock_succes(succesu) {
     notifsucces(succesu)
     succes[succesu].Obtention = "Y"
-
-    $("#succes" + succesu).removeClass("locked");
+    $("#succes" + find_ID(succesu)).removeClass("locked");
     succesunlocked += 1;
     $("#succesrempostes").text(succesunlocked);
 
@@ -150,6 +155,9 @@ function updatesuccestypeC() {
     }
     if (bite_clicks == 100) {
         unlock_succes(1);
+    }
+    if (bite_clicks == 1000) {
+        unlock_succes(5);
     }
 }
 
@@ -183,7 +191,7 @@ function notifsucces(succesn) {
     var nvelle_notif = $('<div/>', {
         "class": "succesnotif",
         "id": "succesnotif" + succesn,
-        html: '<div><img src="'+ succes[succesn].Image + '" class="imgsucces">' +
+        html: '<div><img src="'+ succes[find_ID(succesn)].Image + '" class="imgsucces">' +
             '</div>' +
                 '<div style="width:163px;">' +
                 '<h2>Succès !</h2>' +
