@@ -1,10 +1,41 @@
 let temp = 20;
 let DernierClic = 0;
 let now = 0;
-let succes = [false, false, false, false, false, false, false, false, false, false];
+let bite_state = [
+    {Animation:"tremblementRotation 1s linear infinite", Duree:"5s", Couleur:"black"},
+    {Animation:"tremblementRotation 1s linear infinite", Duree:"0.5s", Couleur:"#ff8a8a"},
+    {Animation:"tremblementRotation 1s linear infinite", Duree:"0.1s", Couleur:"#fa6161"},
+    {Animation:"tremblementRotation 1s linear infinite", Duree:"0.01s", Couleur:"#ff0000"},
+    {Animation:"roatationbrulante 1s linear infinite", Duree:"1s", Couleur:"#edb974"},
+    {Animation:"tremblementRotation 1s linear infinite", Duree:"0.5s", Couleur:"#edb974"},
+    {Animation:"tremblementRotation 1s linear infinite", Duree:"0.1s", Couleur:"#edb974"},
+
+]
+let succes = [
+    {Nom:"Préliminaire", Description:"Toucher votre bite pour la premièrre fois", Image:"img/kqzh6koq.png", Obtention:"N", Type:"C"},
+    {Nom:"Bite innitiée", Description:"Vous commencez a comprendre le gameplay", Image:"img/5ed8xhzh.png", Obtention:"N", Type:"T"},
+    {Nom:"Bite grande", Description:"C'est bon vous maitrisez vraiment le jeu !", Image:"img/e6cz06af.png", Obtention:"N", Type:"T"},
+    {Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"T"}
+]
 let succestotal = succes.length;
 let nowsucces = 0;
 let succesunlocked = 0;
+
+
+function write_succes(){
+    for (let i = 0; i < succestotal ; i++) {
+        var nveau_succes = $('<div/>', {
+            "class": "succes locked",
+            "id": "succes" + i,
+            html: '<img src="' + succes[i].Image + '" class="imgsucces">' +
+                '<div>' +
+                '<h2>' + succes[i].Nom + '</h2>' +
+                '<p>' + succes[i].Description + '</p>' +
+                '</div>'
+        });
+        $("#containersucces").append(nveau_succes);
+    }
+}
 
 function updateTemperature() {
     $("#temp").text(Math.round(temp));
@@ -13,11 +44,6 @@ function updateTemperature() {
 $(".bite").click(function() {
     const maintenant = Date.now();
     const deltanow = maintenant - DernierClic;
-    
-    if (!succes[0]) {
-        succes[0] = true
-        notifsucces(1);
-    }
 
     if (deltanow < 300) {
         trerapidefavetier++;
@@ -28,7 +54,9 @@ $(".bite").click(function() {
 
     DernierClic = maintenant;
     temp += 1 + (trerapidefavetier * 0.5);
+
     updateTemperature();
+    updatesuccestypeC();
 });
 
 function vartemp() {
@@ -45,75 +73,84 @@ function vartemp() {
 }
     
 
-function stautsucceupdate(succes, temperature) {
-    $("#succes" + succes).removeClass("locked");
+function unlock_succes(succesu) {
+    notifsucces(succesu)
+    succes[succesu].Obtention = "Y"
+
+    $("#succes" + succesu).removeClass("locked");
     succesunlocked += 1;
     $("#succesrempostes").text(succesunlocked);
-    $("#Tempsuccesdiv" + succes).show();
-    $("#Tempsucces" + succes).html(Math.round(temperature));
+
+    if (succes[succesu].Type == "T") {
+        var temp_succes = $('<div/>', {
+            "class": "Tempsucces",
+            html: '<h2>Débloqué à :&nbsp; ' + temp + '°C</h2>'
+        });
+        
+        $("#succes" + succesu).append(temp_succes);
+    }
 }
 
 function updatesuccestypeT() {
-
-    if (temp >= 100 && !succes[1]) {
-        succes[1] = true;
-        notifsucces(2);
-        stautsucceupdate(2, temp);
+    if (temp >= 300 && succes[1].Obtention == "N") {
+        unlock_succes(1);
     }  
-    if (temp >= 200 && !succes[2]) {
-        succes[2] = true;
-        notifsucces(3);
-        stautsucceupdate(3, temp);
+    if (temp >= 600 && succes[2].Obtention == "N") {
+        unlock_succes(2);
     }
-    if (temp >= 1250 && !succes[3]){
-        succes[3] = true;
-        notifsucces(4);
-        stautsucceupdate(4, temp);
+    if (temp >= 1250 && succes[3].Obtention == "N"){
+        unlock_succes(3);
     }
-
 }
 
-function updatebite() {
+function updatesuccestypeC() {
+    if (succes[0].Obtention == "N") {
+        unlock_succes(0);
+    }
+}
+
+function bite_state_define() {
+    if (temp < 100) {
+        updatebite(0);
+    }
+    else if (temp >= 100 && temp < 400) {
+        updatebite(1);
+    }
+    else if (temp >= 400 && temp < 600) {
+        updatebite(2);
+    }
+    else if (temp >= 600 && temp < 1000) {
+        updatebite(3);
+    }
+}
+
+function updatebite(state) {
     const bite = document.getElementById("bite");
 
-    if (temp > 100 && temp < 200) {
-        bite.style.animation = "tremblementRotation 1s linear infinite";
-        bite.style.animationDuration = "0.5s";
-        bite.style.color = "#ff8a8a";
-    }
-    else if (temp > 200 && temp < 300) {
-        bite.style.animation = "tremblementRotation 1s linear infinite";
-        bite.style.animationDuration = "0.1s";
-        bite.style.color = "#fa6161";
-    }
-    else if (temp > 300 && temp < 400) {
-        bite.style.animation = "tremblementRotation 1s linear infinite";
-        bite.style.animationDuration = "0.01s";
-        bite.style.color = "#ff0000";
-    }
-    else if (temp > 400 && temp < 500) {
-        bite.style.animation = "roatationbrulante 1s linear infinite";
-        bite.style.color = "#edb974";
-    }   
-    else if (temp > 500 && temp < 600) {
-        bite.style.animation = "roatationbrulante 0.5s linear infinite";
-        bite.style.color = "#edb974";
-    }
-    else if (temp > 600) {
-        bite.style.animation = "roatationbrulante 0.1s linear infinite";
-        bite.style.color = "#edb974";
-    }
-    else {
-        bite.style.animationDuration = "5s";
-        bite.style.color = "black";
-    }
+    bite.style.animation = bite_state[state].Animation;
+    bite.style.animationDuration = bite_state[state].Duree;
+    bite.style.color = bite_state[state].Couleur;
 }
 
-function notifsucces(succes) {
-    $("#succesnotif" + succes).addClass("show");
-    setTimeout(function() {
-        $("#succesnotif" + succes).removeClass("show"); 
-    }, 2000);
+function notifsucces(succesn) {
+    var nvelle_notif = $('<div/>', {
+        "class": "succesnotif",
+        "id": "succesnotif" + succesn,
+        html: '<div><img src="'+ succes[succesn].Image + '" class="imgsucces">' +
+            '</div>' +
+                '<div style="width:163px;">' +
+                '<h2>Succès !</h2>' +
+                '<p>Vous avez débloqué un nouveau succès !</p>' +
+            '</div>'
+    });
+    $("#notifcontainer").append(nvelle_notif);
+    new Promise(resolve => setTimeout(resolve, 20))
+    .then(() => {
+        $("#succesnotif" + succesn).addClass("show");
+        setTimeout(function() {
+            $("#succesnotif" + succesn).removeClass("show"); 
+        }, 2000);
+    });
 }
 
 $("#button1").click(function() {
@@ -141,14 +178,11 @@ $("#imgcroix").hover(
   }
 );
 
-for (let i = 1; i <= succestotal; i++) {
-    $("#Tempsuccesdiv" + i).hide();
-}
 
 $("#succesentout").text(succestotal)
-
 $("#succespage").hide();
+write_succes();
 
 setInterval(vartemp, 1000);
-setInterval(updatebite, 10);
+setInterval(bite_state_define, 10);
 setInterval(updatesuccestypeT, 10);

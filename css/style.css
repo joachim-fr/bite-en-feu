@@ -153,6 +153,8 @@ body.succespageestla {
 
 .containersucces {
     background-color: #0e141b;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     img {
         margin-left: 3%;
         margin-top: 23.5px;
@@ -190,6 +192,10 @@ body.succespageestla {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.486);
     }
+}
+
+.succes:last-child {
+    margin-bottom: 20px;
 }
 
 .Tempsucces {
