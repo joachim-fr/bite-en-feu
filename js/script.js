@@ -13,6 +13,7 @@ let bite_state = [
 ]
 let succes = [
     {Nom:"Préliminaire", Description:"Toucher votre bite pour la premièrre fois", Image:"img/kqzh6koq.png", Obtention:"N", Type:"C"},
+    {Nom:"Youtubeur", Description:"Vous vous êtes touché la bite 100 fois, c'était surement sur des enfants.", Image:"img/images.jpg", Obtention:"N", Type:"C"},
     {Nom:"Bite innitiée", Description:"Vous commencez a comprendre le gameplay", Image:"img/5ed8xhzh.png", Obtention:"N", Type:"T"},
     {Nom:"Bite grande", Description:"C'est bon vous maitrisez vraiment le jeu !", Image:"img/e6cz06af.png", Obtention:"N", Type:"T"},
     {Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"T"}
@@ -20,6 +21,7 @@ let succes = [
 let succestotal = succes.length;
 let nowsucces = 0;
 let succesunlocked = 0;
+let bite_clicks = 0;
 
 
 function write_succes(){
@@ -55,6 +57,8 @@ $(".bite").click(function() {
     DernierClic = maintenant;
     temp += 1 + (trerapidefavetier * 0.5);
 
+    bite_clicks ++;
+    console.log(bite_clicks)
     updateTemperature();
     updatesuccestypeC();
 });
@@ -92,20 +96,23 @@ function unlock_succes(succesu) {
 }
 
 function updatesuccestypeT() {
-    if (temp >= 300 && succes[1].Obtention == "N") {
-        unlock_succes(1);
-    }  
-    if (temp >= 600 && succes[2].Obtention == "N") {
+    if (temp >= 300 && succes[2].Obtention == "N") {
         unlock_succes(2);
-    }
-    if (temp >= 1250 && succes[3].Obtention == "N"){
+    }  
+    if (temp >= 600 && succes[3].Obtention == "N") {
         unlock_succes(3);
+    }
+    if (temp >= 1250 && succes[4].Obtention == "N"){
+        unlock_succes(4);
     }
 }
 
 function updatesuccestypeC() {
     if (succes[0].Obtention == "N") {
         unlock_succes(0);
+    }
+    if (bite_clicks == 100) {
+        unlock_succes(1);
     }
 }
 
