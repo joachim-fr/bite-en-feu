@@ -9,7 +9,6 @@ let bite_state = [
     {Animation:"roatationbrulante 1s linear infinite", Duree:"1s", Couleur:"#edb974"},
     {Animation:"tremblementRotation 1s linear infinite", Duree:"0.5s", Couleur:"#edb974"},
     {Animation:"tremblementRotation 1s linear infinite", Duree:"0.1s", Couleur:"#edb974"},
-
 ]
 let succes = [
     {Nom:"Préliminaire", Description:"Toucher votre bite pour la premièrre fois", Image:"img/kqzh6koq.png", Obtention:"N", Type:"C"},
@@ -140,6 +139,9 @@ function updatebite(state) {
 }
 
 function notifsucces(succesn) {
+    var audiosteam = document.getElementById("steamnotif");
+    audiosteam.play();
+
     var nvelle_notif = $('<div/>', {
         "class": "succesnotif",
         "id": "succesnotif" + succesn,
