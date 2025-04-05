@@ -31,6 +31,10 @@ function vartemp(){
     updateTemperature();
 }
 
+function stautsucceupdate(succes) {
+    $("#succes" + succes).removeClass("locked");
+}
+
 function updatesucces() {
     if (temp >= 50 && !succes[0]) {
         succes[0] = true;
@@ -42,6 +46,10 @@ function updatesucces() {
         succes[1] = true;
         notifsucces(2);
     }  
+    if (temp >= 200 && !succes[2]) {
+        succes[2] = true;
+        notifsucces(3);
+    }
 }
 
 function updatebite() {
@@ -70,6 +78,7 @@ function notifsucces(succes) {
     setTimeout(function() {
         $("#succesnotif" + succes).removeClass("show"); 
     }, 2000);
+    stautsucceupdate(succes);
 }
 
 $("#button1").click(function() {
