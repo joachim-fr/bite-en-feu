@@ -25,6 +25,7 @@ let succes = [
     {ID:"8", Nom:"Hélicobite", Description:"Votre bite ... tourne ?", Image:"img/IMG_3412-e1477430546370.jpg", Obtention:"N", Type:"Etat"},
     {ID:"6", Nom:"Fromager", Description:"Votre bite est maintenant fermentée", Image:"img/appel_salonv.png", Obtention:"N", Type:"Fermentation"},
     {ID:"7", Nom:"Monsieur Klein", Description:"«Oh bah c'est pas cool ça»", Image:"img/file.jpg", Obtention:"N", Type:"Fermentation"},
+    {ID:"9", Nom:"La puissance de monssieur Klein", Description:"«Oh bah c'est quoi ca display flex ???»", Image:"img/file.jpg", Obtention:"N", Type:"Terminal"},    
 ];
 let diff_type = [];
 let succestrie = {};
@@ -37,7 +38,6 @@ $(document).ready(function() {
 
     triertype();
     write_succes();
-    find_index_inhtml();
 
     setInterval(vartemp, 1000);
     setInterval(bite_state_define, 10);
@@ -78,6 +78,27 @@ function write_succes() {
                 "class": "succes-type-container"
             });
 
+            if (type == "Terminal") {
+                typeContainer.append('<h2 class="titletype"> Succès de type : ??? </h2>');
+
+                for (let i = 0; i < succestrie[type].length; i++) {
+                    let succesObj = succestrie[type][i];
+                    let nveau_succes = $('<div/>', {
+                        "class": "succes locked",
+                        "id": "succes" + succesObj.ID, 
+                        html: '<img src="img/pngimg.com - question_mark_PNG53.png" class="imgsucces">' +
+                            '<div>' +
+                            '<h2>???</h2>' +
+                            '<p>???????</p>' +
+                            '</div>'
+                    });
+                    typeContainer.append(nveau_succes);
+                }
+                $("#containersucces").append(typeContainer);
+
+                break;
+            }
+
             typeContainer.append('<h2 class="titletype"> Succès de type : ' + type + ' </h2>');
 
             for (let i = 0; i < succestrie[type].length; i++) {
@@ -105,7 +126,11 @@ function unlock_succes(succesn) {
     succesunlocked += 1;
     $("#succesrempostes").text(succesunlocked);
 
-    if (succes[succesn].Type == "T") {
+    if (succes[find_ID(succesn)].Type == "Terminal") {
+
+    }
+
+    if (succes[find_ID(succesn)].Type == "Température") {
         var temp_succes = $('<div/>', {
             "class": "Tempsucces",
             html: '<h2>Débloqué à :&nbsp; ' + temp + '°C</h2>'
@@ -130,7 +155,12 @@ function updatesuccestypeT() {
 function updatesuccestypeE() {
     const bite = document.getElementById("bite");
 
-    if (bite.style.animation == bite_state[4].Animation && bite.style.animationDuration == bite_state[4].Duree) {
+    const computedStyle = window.getComputedStyle(bite);
+    const animationName = computedStyle.animationName;
+    const animationDuration = computedStyle.animationDuration;
+
+
+    if (animationName.includes("roatationbrulante") && animationDuration.includes("1s") && succes[find_ID(8)].Obtention === "N") {
         unlock_succes(8);
     }
 }
@@ -194,7 +224,7 @@ function bite_state_define() {
     else if (temp >= 2000) {
         updatebite(6);
     }
-    updatesuccestypeE()
+
 }
 
 function updatebite(state) {
@@ -203,6 +233,7 @@ function updatebite(state) {
     bite.style.animation = bite_state[state].Animation;
     bite.style.animationDuration = bite_state[state].Duree;
     bite.style.color = bite_state[state].Couleur;
+    updatesuccestypeE()
 }
 
 function vartemp() {
