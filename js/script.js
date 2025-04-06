@@ -5,6 +5,7 @@ let now = 0;
 let bite_clicks = 0;
 let succesunlocked = 0;
 let succestotal = 0;
+let succes9 = false;
 
 let bite_state = [
     {Animation:"tremblementRotation 1s linear infinite", Duree:"5s", Couleur:"black"},
@@ -188,9 +189,9 @@ function updatesuccestypeT() {
 }
 
 function updatesuccestypeTE() {
+
     if (display == "flex" && succes[find_ID(9)].Obtention == "N") {
         unlock_succes(9);
-        succes[find_ID(9)].Obtention == "Y";
     }
 }
 
@@ -201,9 +202,10 @@ function updatesuccestypeE() {
     const animationName = computedStyle.animationName;
     const animationDuration = computedStyle.animationDuration;
 
-
     if (animationName.includes("roatationbrulante") && animationDuration.includes("1s") && succes[find_ID(8)].Obtention === "N") {
+        console.log("Déblocage du succès 8");
         unlock_succes(8);
+        succes[find_ID(8)].Obtention = "Y"; 
     }
 }
 
