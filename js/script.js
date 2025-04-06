@@ -25,10 +25,15 @@ let succes = [
     {ID:"8", Nom:"Hélicobite", Description:"Votre bite ... tourne ?", Image:"img/IMG_3412-e1477430546370.jpg", Obtention:"N", Type:"Etat"},
     {ID:"6", Nom:"Fromager", Description:"Votre bite est maintenant fermentée", Image:"img/appel_salonv.png", Obtention:"N", Type:"Fermentation"},
     {ID:"7", Nom:"Monsieur Klein", Description:"«Oh bah c'est pas cool ça»", Image:"img/file.jpg", Obtention:"N", Type:"Fermentation"},
-    {ID:"9", Nom:"La puissance de monssieur Klein", Description:"«Oh bah c'est quoi ca display flex ???»", Image:"img/file.jpg", Obtention:"N", Type:"Terminal"},    
+    {ID:"9", Nom:"Dispay flex", Description:"«Oh bah c'est quoi ca display flex ???»", Image:"img/file.jpg", Obtention:"N", Type:"Terminal"},    
 ];
 let diff_type = [];
 let succestrie = {};
+
+// Variables pour les succes type T
+
+let display = "pasflex";
+
 
 // Initialisation
 $(document).ready(function() {
@@ -42,6 +47,7 @@ $(document).ready(function() {
     setInterval(vartemp, 1000);
     setInterval(bite_state_define, 10);
     setInterval(updatesuccestypeT, 10);
+    setInterval(updatesuccestypeTE, 10);
 });
 
 // Fonctions de succès
@@ -128,6 +134,35 @@ function unlock_succes(succesn) {
 
     if (succes[find_ID(succesn)].Type == "Terminal") {
 
+        if (succesn == 9) {
+            let succesObj = succes[find_ID(succesn)];
+        console.log(succesObj);
+        $("#succes" + succesn).empty();
+        let nveau_succes = $('<div/>', {
+            "class": "",
+            "id": "succes" + succesObj.ID, 
+            "style": "padding-bottom: 150px;",
+            html: '<img src="' + succesObj.Image + '">' +
+                '<div>' +
+                '<h2>' + succesObj.Nom + '</h2>' +
+                '<p>' + succesObj.Description + '</p>' +
+                '</div>'
+        });
+
+        $("#succes" + succesn).append(nveau_succes);
+
+        return;
+
+        }
+
+        let succesObj = succes[find_ID(succesn)];
+        console.log(succesObj);
+        $("#succes" + succesn).empty();
+        $("#succes" + succesn).html('<img src="' + succesObj.Image + '" class="imgsucces" style="height: 48px">' +
+                '<div>' +
+                '<h2>' + succesObj.Nom + '</h2>' +
+                '<p>' + succesObj.Description + '</p>' +
+                '</div>');
     }
 
     if (succes[find_ID(succesn)].Type == "Température") {
@@ -149,6 +184,12 @@ function updatesuccestypeT() {
     }
     if (temp >= 1250 && succes[find_ID(4)].Obtention == "N"){
         unlock_succes(4);
+    }
+}
+
+function updatesuccestypeTE() {
+    if (display == "flex" && succes[find_ID(9)].Obtention == "N") {
+        unlock_succes(9)
     }
 }
 
