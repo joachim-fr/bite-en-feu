@@ -1,14 +1,19 @@
+// Variables globales
 let temp = 20;
 let DernierClic = 0;
 let now = 0;
+let bite_clicks = 0;
+let succesunlocked = 0;
+let succestotal = 0;
+
 let bite_state = [
     {Animation:"tremblementRotation 1s linear infinite", Duree:"5s", Couleur:"black"},
     {Animation:"tremblementRotation 1s linear infinite", Duree:"0.5s", Couleur:"#ff8a8a"},
     {Animation:"tremblementRotation 1s linear infinite", Duree:"0.1s", Couleur:"#fa6161"},
     {Animation:"tremblementRotation 1s linear infinite", Duree:"0.01s", Couleur:"#ff0000"},
     {Animation:"roatationbrulante 1s linear infinite", Duree:"1s", Couleur:"#edb974"},
-    {Animation:"tremblementRotation 1s linear infinite", Duree:"0.5s", Couleur:"#edb974"},
-    {Animation:"tremblementRotation 1s linear infinite", Duree:"0.1s", Couleur:"#edb974"},
+    {Animation:"roatationbrulante 1s linear infinite", Duree:"0.5s", Couleur:"#edb974"},
+    {Animation:"roatationbrulante 1s linear infinite", Duree:"0.1s", Couleur:"#edb974"},
 ];
 let succes = [
     {ID:"0", Nom:"Préliminaire", Description:"Toucher votre bite pour la premièrre fois", Image:"img/kqzh6koq.png", Obtention:"N", Type:"Clicker"},
@@ -17,25 +22,34 @@ let succes = [
     {ID:"3", Nom:"Bite moyenne", Description:"C'est bon vous maitrisez vraiment le jeu !", Image:"img/e6cz06af.png", Obtention:"N", Type:"Température"},
     {ID:"4", Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"Température"},
     {ID:"5", Nom:"Gros porc", Description:"Vous vous êtes touché la bite 1000 fois, euh j'éspère que vous n'habitez pas a coté d'une maternelle...", Image:"img/000_37n48g4-1.png", Obtention:"N", Type:"Clicker"},
+    {ID:"8", Nom:"Hélicobite", Description:"Votre bite ... tourne ?", Image:"img/IMG_3412-e1477430546370.jpg", Obtention:"N", Type:"Etat"},
     {ID:"6", Nom:"Fromager", Description:"Votre bite est maintenant fermentée", Image:"img/appel_salonv.png", Obtention:"N", Type:"Fermentation"},
     {ID:"7", Nom:"Monsieur Klein", Description:"«Oh bah c'est pas cool ça»", Image:"img/file.jpg", Obtention:"N", Type:"Fermentation"},
 ];
 let diff_type = [];
 let succestrie = {};
-let succestotal = succes.length;
-let nowsucces = 0;
-let succesunlocked = 0;
-let bite_clicks = 0;
 
+// Initialisation
+$(document).ready(function() {
+    succestotal = succes.length;
+    $("#succesentout").text(succestotal);
+    $("#succespage").hide();
+
+    triertype();
+    write_succes();
+    find_index_inhtml();
+
+    setInterval(vartemp, 1000);
+    setInterval(bite_state_define, 10);
+    setInterval(updatesuccestypeT, 10);
+});
+
+// Fonctions de succès
 function find_ID(ID) {
     for (let i = 0; i < succestotal; i++) {
         if (succes[i].ID == ID)
             return i;
     }
-}
-
-function find_index(ID) {
-    return $("succes" + ID).index();
 }
 
 function triertype() {
@@ -55,6 +69,7 @@ function triertype() {
 }
 
 function write_succes() {
+    $("#containersucces").empty();
 
     for (let type in succestrie) {
         if (succestrie.hasOwnProperty(type)) {
@@ -83,57 +98,20 @@ function write_succes() {
     }
 }
 
-function updateTemperature() {
-    $("#temp").text(Math.round(temp));
-}
-
-$(".bite").click(function() {
-    const maintenant = Date.now();
-    const deltanow = maintenant - DernierClic;
-
-    if (deltanow < 300) {
-        trerapidefavetier++;
-    }
-    else {
-        trerapidefavetier = 0;
-    }
-
-    DernierClic = maintenant;
-    temp += 1 + (trerapidefavetier * 0.2);
-    bite_clicks ++;
-    console.log(bite_clicks)
-    updateTemperature();
-    updatesuccestypeC();
-});
-
-function vartemp() {
-    now = Date.now();
-    if (now - DernierClic > 3000) {
-        if (temp >= 32) {
-            temp -= temp * 0.05;
-        } else if (temp < 32) {
-            temp += (32 - temp) * 0.1;
-        }
-    }
-    console.log("temp: " + temp);
-    updateTemperature();
-}
-    
-
-function unlock_succes(succesu) {
-    notifsucces(succesu)
-    succes[succesu].Obtention = "Y"
-    $("#succes" + find_ID(succesu)).removeClass("locked");
+function unlock_succes(succesn) {
+    notifsucces(succesn)
+    succes[succesn].Obtention = "Y"
+    $("#succes" + succesn).removeClass("locked");
     succesunlocked += 1;
     $("#succesrempostes").text(succesunlocked);
 
-    if (succes[succesu].Type == "T") {
+    if (succes[succesn].Type == "T") {
         var temp_succes = $('<div/>', {
             "class": "Tempsucces",
             html: '<h2>Débloqué à :&nbsp; ' + temp + '°C</h2>'
         });
         
-        $("#succes" + succesu).append(temp_succes);
+        $("#succes" + succesn).append(temp_succes);
     }
 }
 
@@ -149,6 +127,14 @@ function updatesuccestypeT() {
     }
 }
 
+function updatesuccestypeE() {
+    const bite = document.getElementById("bite");
+
+    if (bite.style.animation == bite_state[4].Animation && bite.style.animationDuration == bite_state[4].Duree) {
+        unlock_succes(8);
+    }
+}
+
 function updatesuccestypeC() {
     if (succes[0].Obtention == "N") {
         unlock_succes(0);
@@ -159,29 +145,6 @@ function updatesuccestypeC() {
     if (bite_clicks == 1000) {
         unlock_succes(5);
     }
-}
-
-function bite_state_define() {
-    if (temp < 100) {
-        updatebite(0);
-    }
-    else if (temp >= 100 && temp < 400) {
-        updatebite(1);
-    }
-    else if (temp >= 400 && temp < 600) {
-        updatebite(2);
-    }
-    else if (temp >= 600 && temp < 1000) {
-        updatebite(3);
-    }
-}
-
-function updatebite(state) {
-    const bite = document.getElementById("bite");
-
-    bite.style.animation = bite_state[state].Animation;
-    bite.style.animationDuration = bite_state[state].Duree;
-    bite.style.color = bite_state[state].Couleur;
 }
 
 function notifsucces(succesn) {
@@ -208,6 +171,77 @@ function notifsucces(succesn) {
     });
 }
 
+// Fonctions de température et d'état de la bite
+function bite_state_define() {
+    if (temp < 100) {
+        updatebite(0);
+    }
+    else if (temp >= 100 && temp < 400) {
+        updatebite(1);
+    }
+    else if (temp >= 400 && temp < 600) {
+        updatebite(2);
+    }
+    else if (temp >= 600 && temp < 1000) {
+        updatebite(3);
+    }
+    else if (temp >= 1000 && temp < 1500) {
+        updatebite(4);
+    }
+    else if (temp >= 1500 && temp < 2000) {
+        updatebite(5);
+    }
+    else if (temp >= 2000) {
+        updatebite(6);
+    }
+    updatesuccestypeE()
+}
+
+function updatebite(state) {
+    const bite = document.getElementById("bite");
+
+    bite.style.animation = bite_state[state].Animation;
+    bite.style.animationDuration = bite_state[state].Duree;
+    bite.style.color = bite_state[state].Couleur;
+}
+
+function vartemp() {
+    now = Date.now();
+    if (now - DernierClic > 3000) {
+        if (temp >= 32) {
+            temp -= temp * 0.05;
+        } else if (temp < 32) {
+            temp += (32 - temp) * 0.1;
+        }
+    }
+    console.log("temp: " + temp);
+    updateTemperature();
+}
+
+function updateTemperature() {
+    $("#temp").text(Math.round(temp));
+}
+
+// Fonctions d'événements et d'interface utilisateur
+$(".bite").click(function() {
+    const maintenant = Date.now();
+    const deltanow = maintenant - DernierClic;
+
+    if (deltanow < 300) {
+        trerapidefavetier++;
+    }
+    else {
+        trerapidefavetier = 0;
+    }
+
+    DernierClic = maintenant;
+    temp += 1 + (trerapidefavetier * 0.2);
+    bite_clicks ++;
+    console.log(bite_clicks)
+    updateTemperature();
+    updatesuccestypeC();
+});
+
 $("#button1").click(function() {
     $("#succespage").show();
     $("#succespage").addClass("showsuccespage"); 
@@ -233,12 +267,24 @@ $("#imgcroix").hover(
   }
 );
 
+// Fonction non utilisée (à supprimer ?)
+function find_index_inhtml(ID) {
+    const succueshtml = document.getElementById("containersucces");
+    const succehtml = succueshtml.childNodes;
+    const succesordehtml = [];
 
-$("#succesentout").text(succestotal)
-$("#succespage").hide();
-triertype();
-write_succes();
+    for (let i = 1; i < succehtml.length; i++) {
+        const lesucceshtml = succehtml[i];
+        const lesucceshtmljustelesdivs = lesucceshtml.getElementsByClassName("succes");
+        for (let j = 0; j < lesucceshtmljustelesdivs.length; j++) {
+            succesordehtml.push(lesucceshtmljustelesdivs[j].id);
+        }
+    }
+    console.log(succesordehtml);
 
-setInterval(vartemp, 1000);
-setInterval(bite_state_define, 10);
-setInterval(updatesuccestypeT, 10);
+    for (let i = 0; i < succesordehtml.length; i++) {
+        if (succesordehtml[i].id == "succes" + ID) {
+            return i;
+        }
+    }
+}
