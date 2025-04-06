@@ -13,6 +13,11 @@
     src: url(Fact-NarrowBold.ttf) format("truetype");
 }
 
+@font-face {
+    font-family: "Prompt";
+    src: url(Prompt-Light.ttf) format("truetype");
+}
+
 .game {
     transition: filter 0.5s ease-in-out;
     filter: blur(0); 
@@ -57,6 +62,7 @@ body.succespageestla {
     display: block; 
     margin-top: 200px; 
 }
+
 
 .succesnotif {
     background: linear-gradient(0deg, rgba(19,27,40,1) 0%, rgba(41,45,48,1) 100%);
