@@ -46,6 +46,8 @@ body.succespageestla {
     display: block;
     margin-top: 20px;
     font-family: Comic-Sans-MS;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .button {
