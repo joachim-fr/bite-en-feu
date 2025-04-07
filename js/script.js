@@ -26,7 +26,8 @@ let succes = [
     {ID:"8", Nom:"Zizicoptère", Description:"Votre bite ... tourne ?", Image:"img/IMG_3412-e1477430546370.jpg", Obtention:"N", Type:"Etat"},
     {ID:"6", Nom:"Fromager", Description:"Votre bite est maintenant fermentée", Image:"img/appel_salonv.png", Obtention:"N", Type:"Fermentation"},
     {ID:"7", Nom:"Monsieur Klein", Description:"«Oh bah c'est pas cool ça»", Image:"img/file.jpg", Obtention:"N", Type:"Fermentation"},
-    {ID:"9", Nom:"Display flex", Description:"«Oh bah c'est quoi ca display flex ???»", Image:"img/file.jpg", Obtention:"N", Type:"Terminal"},    
+    {ID:"9", Nom:"Display flex", Description:"«Oh bah c'est quoi ca display flex ???»", Image:"img/file.jpg", Obtention:"N", Type:"Terminal"},   
+    {ID:"10", Nom:"Favé", Description:"Favé a la barre et il s'est fait djoufara au mans, même mon clebs n'en veut pas.", Image:"img/182596ed0a4c45f85f4d4474ccedb58e2d65ab00.jpg", Obtention:"N", Type:"Terminal"},   
 ];
 let diff_type = [];
 let succestrie = {};
@@ -34,6 +35,7 @@ let succestrie = {};
 // Variables pour les succes type T
 
 let display = "pasflex";
+let djoufara = false;
 
 
 // Initialisation
@@ -189,9 +191,17 @@ function updatesuccestypeT() {
 }
 
 function updatesuccestypeTE() {
-
-    if (display == "flex" && succes[find_ID(9)].Obtention == "N") {
+    if (display === "flex" && succes[find_ID(9)].Obtention === "N") {
         unlock_succes(9);
+    }
+
+    if (djoufara === true && succes[find_ID(10)].Obtention === "N") {
+        const body = document.getElementById("body");
+        body.style.backgroundImage = "url('img/182596ed0a4c45f85f4d4474ccedb58e2d65ab00.jpg')";
+        body.style.backgroundSize = "100px 100px";
+        body.style.backgroundRepeat = "repeat"; 
+        body.style.backgroundPosition = "0 0"; 
+        unlock_succes(10);
     }
 }
 
@@ -222,9 +232,14 @@ function updatesuccestypeC() {
 }
 
 function notifsucces(succesn) {
+    if (succesn == 10) {
+        var audiopassteam = document.getElementById("favenotif");
+        audiopassteam.play();
+    }
+    else {
     var audiosteam = document.getElementById("steamnotif");
     audiosteam.play();
-
+    }
     var nvelle_notif = $('<div/>', {
         "class": "succesnotif",
         "id": "succesnotif" + succesn,
