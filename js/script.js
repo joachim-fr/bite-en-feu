@@ -313,6 +313,12 @@ function updateTemperature() {
     $("#temp").text(Math.round(temp));
 }
 
+function updateDjoufara() {
+    if (trerapidefavetier < 6000) {
+        djoufara = true
+    }
+}
+
 // Fonctions d'événements et d'interface utilisateur
 $(".bite").click(function() {
     const maintenant = Date.now();
@@ -331,6 +337,7 @@ $(".bite").click(function() {
     console.log(bite_clicks)
     updateTemperature();
     updatesuccestypeC();
+    updateDjoufara();
 });
 
 $("#button1").click(function() {
