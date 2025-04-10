@@ -21,7 +21,7 @@ let succes = [
     {ID:"1", Nom:"Youtubeur", Description:"Vous vous êtes touché la bite 100 fois, c'était surement sur des enfants", Image:"img/images.jpg", Obtention:"N", Type:"Clicker"},
     {ID:"2", Nom:"Bite innitiée", Description:"Vous commencez a comprendre le gameplay", Image:"img/5ed8xhzh.png", Obtention:"N", Type:"Température"},
     {ID:"3", Nom:"Bite moyenne", Description:"C'est bon vous maitrisez vraiment le jeu !", Image:"img/e6cz06af.png", Obtention:"N", Type:"Température"},
-    {ID:"11", Nom:"Afrique", Description:"Il commence a faire insuportable chaud ici.", Image:"img/afc.webp", Obtention:"N", Type:"Température"},
+    {ID:"11", Nom:"Afrique", Description:"Il commence a faire insuportablement chaud ici.", Image:"img/afc.webp", Obtention:"N", Type:"Température"},
     {ID:"4", Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"Température"},
     {ID:"5", Nom:"Gros porc", Description:"Vous vous êtes touché la bite 1000 fois, euh j'éspère que vous n'habitez pas a coté d'une maternelle...", Image:"img/000_37n48g4-1.png", Obtention:"N", Type:"Clicker"},
     {ID:"8", Nom:"Zizicoptère", Description:"Votre bite ... tourne ?", Image:"img/IMG_3412-e1477430546370.jpg", Obtention:"N", Type:"Etat"},
@@ -188,6 +188,9 @@ function updatesuccestypeT() {
     }
     if (temp >= 1250 && succes[find_ID(4)].Obtention == "N"){
         unlock_succes(4);
+    }
+    if (temp >= 10000 && succes[find_ID(11)].Obtention == "N"){
+        unlock_succes(11);
     }
 }
 
