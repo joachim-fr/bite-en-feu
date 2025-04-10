@@ -192,11 +192,11 @@ function updatesuccestypeT() {
 }
 
 function updatesuccestypeTE() {
-    if (display === "flex" && succes[find_ID(9)].Obtention === "N") {
+    if (display == "flex" && succes[find_ID(9)].Obtention == "N") {
         unlock_succes(9);
     }
 
-    if (djoufara === true && succes[find_ID(10)].Obtention === "N") {
+    if (djoufara == true && succes[find_ID(10)].Obtention == "N") {
         const body = document.getElementById("body");
         body.style.backgroundImage = "url('img/182596ed0a4c45f85f4d4474ccedb58e2d65ab00.jpg')";
         body.style.backgroundSize = "100px 100px";
@@ -213,7 +213,7 @@ function updatesuccestypeE() {
     const animationName = computedStyle.animationName;
     const animationDuration = computedStyle.animationDuration;
 
-    if (animationName.includes("roatationbrulante") && animationDuration.includes("1s") && succes[find_ID(8)].Obtention === "N") {
+    if (animationName.includes("roatationbrulante") && animationDuration.includes("1s") && succes[find_ID(8)].Obtention == "N") {
         console.log("Déblocage du succès 8");
         unlock_succes(8);
         succes[find_ID(8)].Obtention = "Y"; 
