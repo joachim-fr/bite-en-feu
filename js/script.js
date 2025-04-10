@@ -1,5 +1,5 @@
 // Variables globales
-let temp = 20;
+let temp = 37;
 let DernierClic = 0;
 let now = 0;
 let bite_clicks = 0;
@@ -302,10 +302,10 @@ function updatebite(state) {
 function vartemp() {
     now = Date.now();
     if (now - DernierClic > 3000) {
-        if (temp >= 32) {
+        if (temp >= 37) {
             temp -= temp * 0.05;
-        } else if (temp < 32) {
-            temp += (32 - temp) * 0.1;
+        } else if (temp < 37) {
+            temp += (37 - temp) * 0.1;
         }
     }
     console.log("temp: " + temp);
@@ -369,6 +369,12 @@ $("#imgcroix").hover(
     $(this).attr("src", "img/1487086345-cross_81577(2).png");
   }
 );
+
+function toutDebloquer() {
+    for (let i = 0; i < succestotal; i++) {
+        unlock_succes(i);
+    }
+}
 
 // Fonction non utilisée (à supprimer ?)
 function find_index_inhtml(ID) {
