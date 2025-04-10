@@ -6,6 +6,7 @@ let bite_clicks = 0;
 let succesunlocked = 0;
 let succestotal = 0;
 let succes9 = false;
+let trerapidefavetier = 0;
 
 let bite_state = [
     {Animation:"tremblementRotation 1s linear infinite", Duree:"5s", Couleur:"black"},
@@ -21,14 +22,14 @@ let succes = [
     {ID:"1", Nom:"Youtubeur", Description:"Vous vous êtes touché la bite 100 fois, c'était surement sur des enfants", Image:"img/images.jpg", Obtention:"N", Type:"Clicker"},
     {ID:"2", Nom:"Bite innitiée", Description:"Vous commencez a comprendre le gameplay", Image:"img/5ed8xhzh.png", Obtention:"N", Type:"Température"},
     {ID:"3", Nom:"Bite moyenne", Description:"C'est bon vous maitrisez vraiment le jeu !", Image:"img/e6cz06af.png", Obtention:"N", Type:"Température"},
-    {ID:"11", Nom:"Afrique", Description:"Il commence a faire insuportablement chaud ici.", Image:"img/afc.webp", Obtention:"N", Type:"Température"},
     {ID:"4", Nom:"Bitte", Description:"Vous avez fodue votre bitte d'amarage", Image:"img/22887-11744183.jpg", Obtention:"N", Type:"Température"},
+    {ID:"11", Nom:"Afrique", Description:"Il commence a faire insuportablement chaud ici.", Image:"img/afc.webp", Obtention:"N", Type:"Température"},
     {ID:"5", Nom:"Gros porc", Description:"Vous vous êtes touché la bite 1000 fois, euh j'éspère que vous n'habitez pas a coté d'une maternelle...", Image:"img/000_37n48g4-1.png", Obtention:"N", Type:"Clicker"},
     {ID:"8", Nom:"Zizicoptère", Description:"Votre bite ... tourne ?", Image:"img/IMG_3412-e1477430546370.jpg", Obtention:"N", Type:"Etat"},
     {ID:"6", Nom:"Fromager", Description:"Votre bite est maintenant fermentée", Image:"img/appel_salonv.png", Obtention:"N", Type:"Fermentation"},
     {ID:"7", Nom:"Monsieur Klein", Description:"«Oh bah c'est pas cool ça»", Image:"img/file.jpg", Obtention:"N", Type:"Fermentation"},
     {ID:"9", Nom:"Display flex", Description:"«Oh bah c'est quoi ca display flex ???»", Image:"img/file.jpg", Obtention:"N", Type:"Terminal"},   
-    {ID:"10", Nom:"Favé", Description:"Favé a la barre et il s'est fait djoufara au mans, même mon clebs n'en veut pas.", Image:"img/182596ed0a4c45f85f4d4474ccedb58e2d65ab00.jpg", Obtention:"N", Type:"Terminal"},   
+    {ID:"10", Nom:"Favé", Description:"Favé a la barre et il s'est fait djoufara au mans, même mon clebs n'en veut pas.", Image:"img/182596ed0a4c45f85f4d4474ccedb58e2d65ab00.jpg", Obtention:"N", Type:"Terminal"},
 ];
 let diff_type = [];
 let succestrie = {};
@@ -51,7 +52,7 @@ $(document).ready(function() {
     setInterval(vartemp, 1000);
     setInterval(bite_state_define, 10);
     setInterval(updatesuccestypeT, 10);
-    setInterval(updatesuccestypeTE, 10);
+    setInterval(updateDjoufara, 10);
 });
 
 // Fonctions de succès
@@ -177,6 +178,14 @@ function unlock_succes(succesn) {
         
         $("#succes" + succesn).append(temp_succes);
     }
+
+    if (succesn == 10) {
+        const body = document.getElementById("body");
+        body.style.backgroundImage = "url('img/182596ed0a4c45f85f4d4474ccedb58e2d65ab00.jpg')";
+        body.style.backgroundSize = "100px 100px";
+        body.style.backgroundRepeat = "repeat"; 
+        body.style.backgroundPosition = "0 0"; 
+    }
 }
 
 function updatesuccestypeT() {
@@ -191,21 +200,6 @@ function updatesuccestypeT() {
     }
     if (temp >= 10000 && succes[find_ID(11)].Obtention == "N"){
         unlock_succes(11);
-    }
-}
-
-function updatesuccestypeTE() {
-    if (display == "flex" && succes[find_ID(9)].Obtention == "N") {
-        unlock_succes(9);
-    }
-
-    if (djoufara == true && succes[find_ID(10)].Obtention == "N") {
-        const body = document.getElementById("body");
-        body.style.backgroundImage = "url('img/182596ed0a4c45f85f4d4474ccedb58e2d65ab00.jpg')";
-        body.style.backgroundSize = "100px 100px";
-        body.style.backgroundRepeat = "repeat"; 
-        body.style.backgroundPosition = "0 0"; 
-        unlock_succes(10);
     }
 }
 
@@ -317,11 +311,14 @@ function updateTemperature() {
 }
 
 function updateDjoufara() {
-    if ((trerapidefavetier > 200) & (djoufara = false)) {
-        djoufara = true
+    if (trerapidefavetier > 200) {
+        unlock_succes(10);
     }
 
-    console.log("Djoufara : " + trerapidefavetier)
+    if (djoufara == true) {
+        unlock_succes(10);
+        djoufara = false;
+    }
 }
 
 // Fonctions d'événements et d'interface utilisateur
@@ -340,9 +337,9 @@ $(".bite").click(function() {
     temp += 1 + (trerapidefavetier * 0.2);
     bite_clicks ++;
     console.log(bite_clicks)
+    console.log("Djoufara: " + trerapidefavetier)
     updateTemperature();
     updatesuccestypeC();
-    updateDjoufara();
 });
 
 $("#button1").click(function() {
@@ -373,8 +370,11 @@ $("#imgcroix").hover(
 function toutDebloquer() {
     for (let i = 0; i < succestotal; i++) {
         unlock_succes(i);
+        display = "flex";
+        djoufara = true;
     }
 }
+
 
 // Fonction non utilisée (à supprimer ?)
 function find_index_inhtml(ID) {
