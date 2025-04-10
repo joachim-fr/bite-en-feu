@@ -317,6 +317,8 @@ function updateDjoufara() {
     if (trerapidefavetier < 6000) {
         djoufara = true
     }
+
+    console.log("Djoufara : " + trerapidefavetier)
 }
 
 // Fonctions d'événements et d'interface utilisateur
