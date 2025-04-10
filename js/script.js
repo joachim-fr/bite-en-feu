@@ -314,7 +314,7 @@ function updateTemperature() {
 }
 
 function updateDjoufara() {
-    if (trerapidefavetier < 6000) {
+    if (trerapidefavetier > 6000) {
         djoufara = true
     }
 
