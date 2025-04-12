@@ -53,6 +53,7 @@ $(document).ready(function() {
     setInterval(bite_state_define, 10);
     setInterval(updatesuccestypeT, 10);
     setInterval(updateDjoufara, 10);
+    setInterval(updatesuccestypeTE, 10);
 });
 
 // Fonctions de succès
@@ -227,6 +228,21 @@ function updatesuccestypeC() {
     if (bite_clicks == 1000) {
         unlock_succes(5);
     }
+}
+
+function updatesuccestypeTE() {
+
+    // favé a déplacer ici
+
+    if (window.innerHeight < window.innerWidth/4) {
+        if (succes[9].Obtention  == "N") {
+            unlock_succes(9);
+            console.log("display pas flex")
+        }
+        unlock_succes(9);
+        console.log("display flex")
+    }
+    console.log("width: " + window.innerWidth + " height: " + window.innerHeight);
 }
 
 function notifsucces(succesn) {
