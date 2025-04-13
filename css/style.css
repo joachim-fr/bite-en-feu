@@ -62,9 +62,48 @@ body.succespageestla {
     left: 50%; 
     transform: translateX(-50%); 
     display: block; 
-    margin-top: 200px; 
+    margin-top: 100px; 
 }
 
+.upgradecontainer {
+    display: flex;
+    margin-top: 100px;
+}
+
+.upgrade {
+    position: relative;
+    text-align: center;
+    font-family: Comic-Sans-MS;
+    border-radius: 5px;
+}
+
+.uplocked {
+    filter: blur(10px);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+
+.locked-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 20px;
+    font-family: Comic-Sans-MS;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+
+.fermentation {
+    background-color: #0b5f00;
+    width: 40%;
+    margin-left: 5%;
+}
 
 .succesnotif {
     background: linear-gradient(0deg, rgba(19,27,40,1) 0%, rgba(41,45,48,1) 100%);
@@ -230,8 +269,9 @@ body.succespageestla {
 }
 
 
-
-
+.uplocked .locked-text {
+    display: block; /* Affiche le texte si l'upgrade est verrouillée */
+}
 
 @keyframes tremblementRotation {
     0% {
