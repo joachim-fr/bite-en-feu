@@ -53,6 +53,59 @@ $(document).ready(function() {
     setInterval(updatesuccestypeTE, 10);
 });
 
+
+// Fonctions de température et d'état de la bite
+function bite_state_define() {
+    if (temp < 100) {
+        updatebite(0);
+    }
+    else if (temp >= 100 && temp < 400) {
+        updatebite(1);
+    }
+    else if (temp >= 400 && temp < 600) {
+        updatebite(2);
+    }
+    else if (temp >= 600 && temp < 1000) {
+        updatebite(3);
+    }
+    else if (temp >= 1000 && temp < 1500) {
+        updatebite(4);
+    }
+    else if (temp >= 1500 && temp < 2000) {
+        updatebite(5);
+    }
+    else if (temp >= 2000) {
+        updatebite(6);
+    }
+
+}
+
+function updatebite(state) {
+    const bite = document.getElementById("bite");
+
+    bite.style.animation = bite_state[state].Animation;
+    bite.style.animationDuration = bite_state[state].Duree;
+    bite.style.color = bite_state[state].Couleur;
+    updatesuccestypeE()
+}
+
+function vartemp() {
+    now = Date.now();
+    if (now - DernierClic > 3000) {
+        if (temp >= 32) {
+            temp -= temp * 0.05;
+        } else if (temp < 32) {
+            temp += (32 - temp) * 0.1;
+        }
+    }
+    console.log("temp: " + temp);
+    updateTemperature();
+}
+
+function updateTemperature() {
+    $("#temp").text(Math.round(temp));
+}
+
 // Fonctions de succès
 function find_ID(ID) {
     for (let i = 0; i < succestotal; i++) {
@@ -260,56 +313,11 @@ function notifsucces(succesn) {
     });
 }
 
-// Fonctions de température et d'état de la bite
-function bite_state_define() {
-    if (temp < 100) {
-        updatebite(0);
-    }
-    else if (temp >= 100 && temp < 400) {
-        updatebite(1);
-    }
-    else if (temp >= 400 && temp < 600) {
-        updatebite(2);
-    }
-    else if (temp >= 600 && temp < 1000) {
-        updatebite(3);
-    }
-    else if (temp >= 1000 && temp < 1500) {
-        updatebite(4);
-    }
-    else if (temp >= 1500 && temp < 2000) {
-        updatebite(5);
-    }
-    else if (temp >= 2000) {
-        updatebite(6);
-    }
+// Fonction d'amélioration
 
-}
-
-function updatebite(state) {
-    const bite = document.getElementById("bite");
-
-    bite.style.animation = bite_state[state].Animation;
-    bite.style.animationDuration = bite_state[state].Duree;
-    bite.style.color = bite_state[state].Couleur;
-    updatesuccestypeE()
-}
-
-function vartemp() {
-    now = Date.now();
-    if (now - DernierClic > 3000) {
-        if (temp >= 32) {
-            temp -= temp * 0.05;
-        } else if (temp < 32) {
-            temp += (32 - temp) * 0.1;
-        }
-    }
-    console.log("temp: " + temp);
-    updateTemperature();
-}
-
-function updateTemperature() {
-    $("#temp").text(Math.round(temp));
+function unlock_upgrade(upgradeId) {
+    $("#" + upgradeId).children('div').removeClass("uplocked"); 
+    $("#locked" + upgradeId).hide(); 
 }
 
 // Fonctions d'événements et d'interface utilisateur

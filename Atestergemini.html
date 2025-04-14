@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Déplacer une image à la souris (corrigé)</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            /* Empêche la sélection de texte pendant le glisser-déposer */
+            user-select: none;
+        }
+
+        #conteneur {
+            position: relative;
+            width: 500px;
+            height: 300px;
+            border: 2px solid #ccc;
+            margin: 20px auto;
+            /* overflow: hidden; Pour empêcher l'image de dépasser, mais peut-être pas idéal ici */
+        }
+
+        #monImage {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            cursor: grab;
+
+        }
+
+        #monImage:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body>
+    <div id="conteneur">
+        <img id="monImage" src="img/000_37n48g4-1.png" alt="Image à déplacer">
+    </div>
+
+    <script>
+        const image = document.getElementById('monImage');
+        const conteneur = document.getElementById('conteneur');
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        function handleMouseUp() {
+            isDragging = false;
+            image.style.cursor = 'grab';
+            // Supprimer les écouteurs d'événements de déplacement глобальные
+            conteneur.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        }
+
+        function handleMouseMove(e) {
+            if (!isDragging) return;
+
+            let x = e.clientX - offsetX;
+            let y = e.clientY - offsetY;
+
+             // Empêcher l'image de sortir des limites du conteneur
+            const conteneurRect = conteneur.getBoundingClientRect();
+            const imageRect = image.getBoundingClientRect();
+
+            // Limites horizontales
+            if (x < 0) {
+                x = 0;
+            } else if (x > conteneurRect.width - imageRect.width) {
+                x = conteneurRect.width - imageRect.width;
+            }
+
+            // Limites verticales
+            if (y < 0) {
+                y = 0;
+            } else if (y > conteneurRect.height - imageRect.height) {
+                y = conteneurRect.height - imageRect.height;
+            }
+
+            image.style.left = x + 'px';
+            image.style.top = y + 'px';
+        }
+
+        image.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - image.offsetLeft;
+            offsetY = e.clientY - image.offsetTop;
+            image.style.cursor = 'grabbing';
+
+            // Ajouter les écouteurs d'événements de mouvement et de fin de déplacement
+            conteneur.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp); // Gestionnaire global
+            e.preventDefault(); // Empêcher le comportement par défaut du navigateur (comme la sélection de texte)
+        });
+
+       
+    </script>
+</body>
+</html>
